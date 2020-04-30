@@ -40,7 +40,7 @@ export default ({navigation}) => {
             ))
           }
         </Table>
-        </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };

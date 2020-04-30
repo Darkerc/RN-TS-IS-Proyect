@@ -11,7 +11,7 @@ interface barOptions {
 export default (options:barOptions) =>{
     return (
         <View style={Styles.barContainer}>
-            <View onTouchStart={()=>{options.navigation.openDrawer()}} onTouchEnd={()=>{options.navigation.openDrawer()}} style={Styles.barIconContainer}>
+            <View onTouchStart={()=>{options.navigation.openDrawer()}} style={Styles.barIconContainer}>
                 <Icon onPress={()=>{options.navigation.openDrawer()}} styles={Styles.barIcon} size={50} name="dehaze" color="#000" />
             </View>
             <Text style={Styles.barText}>{options.title}</Text>
@@ -31,10 +31,11 @@ const Styles = StyleSheet.create({
         position:'absolute',
         left:10,
         zIndex:5,
+        width:'100%',
+        flexDirection:'row',
     },
     barIcon:{
         padding:15,
-        zIndex:2,
     },
     barText:{
         width:'100%',

@@ -19,6 +19,7 @@ const userReducer = (state = initialState, action:UserResolver) => {
                             ...state,
                             ...action.payload,
                             userDrawerScreens:[
+                                {  screenName:'MenuDiario' ,drawerScreenName:'Menu Diario' },
                                 {  screenName:'Usuarios' ,drawerScreenName:'Usuarios' },
                                 {  screenName:'Citas' ,drawerScreenName:'Citas' },
                             ],
@@ -28,6 +29,7 @@ const userReducer = (state = initialState, action:UserResolver) => {
                             ...state,
                             ...action.payload,
                             userDrawerScreens:[
+                                {  screenName:'MenuDiario' ,drawerScreenName:'Menu Diario' },
                                 {  screenName:'Platillos' ,drawerScreenName:'Platillos' },
                                 {  screenName:'Pagos' ,drawerScreenName:'Pagos' },
                             ],
@@ -37,7 +39,7 @@ const userReducer = (state = initialState, action:UserResolver) => {
                             ...state,
                             ...action.payload,
                             userDrawerScreens:[
-                                {  screenName:'MenuDiario' ,drawerScreenName:'MenuDiario' },
+                                {  screenName:'MenuDiario' ,drawerScreenName:'Menu Diario' },
                                 {  screenName:'Control' ,drawerScreenName:'Control' },
                                 {  screenName:'Citas' ,drawerScreenName:'Citas' },
                             ],

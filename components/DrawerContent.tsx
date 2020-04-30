@@ -26,7 +26,7 @@ const Content = ({navigation}) => {
   return (
     <ScrollView style={Styles.DrawerPanel}>
       <View
-        onTouchEnd={() => {
+        onTouchStart={() => {
           navigation.toggleDrawer();
         }}
         style={Styles.DrawerIconToggle}>
