@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { addProduct } from '../actions/products';
+import { addProduct } from '../../../actions/products';
 import { useDispatch } from 'react-redux';
+import Ripple from "react-native-material-ripple";
 
 interface productItemProp{
     src?: string,
@@ -21,12 +22,12 @@ export default (productProps: productItemProp) => {
     };
 
     return (
-        <View style={Style.productContainer} onTouchEnd={productTouched}>
-            <Image style={Style.imgProduct} source={{ uri:productProps.img, cache:'force-cache' }}/>
+        <Ripple style={Style.productContainer} onPress={productTouched}>
+            <Image style={Style.imgProduct} source={{ uri:productProps.img }}/>
             <Text style={Style.textInfo}>{productProps.nombre}</Text>
             <Text style={Style.textInfo}>Calorias: {productProps.calorias}</Text>
             <Text style={Style.textInfo}>Costo: ${productProps.costo}</Text>
-        </View>
+        </Ripple>
     );
 };
 

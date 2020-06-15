@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -5,7 +6,7 @@ import SplashScreen from './Screens/SplashScreen';
 import HomeScreens from './Screens/HomeScreens';
 import Nutricionista from './Screens/Nutricionista';
 import Proveedor from './Screens/Proveedor';
-import Usuario from './Screens/Usuario';
+import Participante from './Screens/Participante';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +18,7 @@ const App = () => {
         <Stack.Screen name="HomeScreens" component={HomeScreens} />
         <Stack.Screen name="Nutricionista" component={Nutricionista} />
         <Stack.Screen name="Proveedor" component={Proveedor} />
-        <Stack.Screen name="Usuario" component={Usuario} />
+        <Stack.Screen name="Participante" component={Participante} />
       </Stack.Navigator>
     </NavigationContainer>
   );

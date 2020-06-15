@@ -2,19 +2,22 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { USER_TYPES } from '../constants';
 import { CommonActions } from '@react-navigation/native';
+import { cleanProductData } from "../actions/products";
 
 const Content = ({navigation}) => {
 
   const selectedData = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const capitalize = (String:string) => {
     return String.charAt(0).toUpperCase() + String.slice(1);
   };
 
-  const stackNavigationTo = (name:string) =>{
+  const logout = (name:string) =>{
+    dispatch(cleanProductData());
     navigation.dispatch(CommonActions.reset({
       index:1,
       routes:[
@@ -33,28 +36,11 @@ const Content = ({navigation}) => {
         <Icon size={50} name="dehaze" color="white" backgroundColor="#fff" />
       </View>
       <View style={Styles.DrawerContent}>
-        <View>
-          {
-            selectedData.userType === USER_TYPES.NUTRICIONISTA &&
-              <Image
-                source={require('../assets/imgNayanci.jpeg')}
-                style={Styles.userImg}
-              />
-          }
-          {
-            selectedData.userType === USER_TYPES.PROVEEDOR &&
-              <Image
-                source={require('../assets/imgLeo.jpeg')}
-                style={Styles.userImg}
-              />
-          }
-          {
-            selectedData.userType === USER_TYPES.USUARIO &&
-              <Image
-                source={require('../assets/imgEder.jpg')}
-                style={Styles.userImg}
-              />
-          }
+        <View style={Styles.userImgContent}>
+          <Image
+            source={{ uri:selectedData.userImg, cache:'force-cache' }}
+            style={Styles.userImg}
+          />
         </View>
         <View style={Styles.userTypeImgCont}>
           {
@@ -72,7 +58,7 @@ const Content = ({navigation}) => {
               />
           }
           {
-            selectedData.userType === USER_TYPES.USUARIO &&
+            selectedData.userType === USER_TYPES.PARTICIPANTE &&
               <Image
                 source={require('../assets/hombre_mujer.png')}
                 style={Styles.userTypeImg}
@@ -105,12 +91,12 @@ const Content = ({navigation}) => {
           {
             selectedData.userDrawerScreens.map((data,i) => {
               return (
-                <Text key={i} onPress={()=>{navigation.navigate(`${data.screenName}`)}} style={Styles.optionsItem}>{data.drawerScreenName}</Text>
+                <Text key={i} onPress={()=>{navigation.navigate(`${data.screenName}`);}} style={Styles.optionsItem}>{data.drawerScreenName}</Text>
               );
             })
           }
         </View>
-        <Text onPress={()=>navigation.navigate('SplashScreen')} style={Styles.logout}>
+        <Text onPress={()=>{logout('SplashScreen')}} style={Styles.logout}>
           Cerrar sesion
         </Text>
       </View>
@@ -137,13 +123,19 @@ const Styles = StyleSheet.create({
     left: 0,
     zIndex:2,
   },
-  userImg: {
+  userImgContent:{
+    overflow:'hidden',
     borderRadius: 100,
     width: '70%',
     height: 185,
+    alignSelf:'center',
     borderColor: 'cyan',
     borderWidth: 2,
-    alignSelf: 'center',
+  },
+  userImg: {
+    width:'100%',
+    height:'100%',
+    resizeMode:'stretch',
   },
   userTypeImgCont:{
     flex:1,
@@ -184,7 +176,7 @@ const Styles = StyleSheet.create({
   },
   userName: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 20,
     textAlign: 'center',
     textDecorationLine: 'underline',
   },

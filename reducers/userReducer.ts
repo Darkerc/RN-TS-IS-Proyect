@@ -3,6 +3,7 @@ import { SET_USER, USER_TYPES } from '../constants';
 import {UserResolver} from '../interfaces/UserData';
 
 const initialState = {
+    userId:undefined,
     userImg:'',
     userType:'',
     userName:'',
@@ -34,7 +35,7 @@ const userReducer = (state = initialState, action:UserResolver) => {
                                 {  screenName:'Pagos' ,drawerScreenName:'Pagos' },
                             ],
                         };
-                    case USER_TYPES.USUARIO:
+                    case USER_TYPES.PARTICIPANTE:
                         return {
                             ...state,
                             ...action.payload,

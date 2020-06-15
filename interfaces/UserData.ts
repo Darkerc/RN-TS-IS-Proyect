@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 export interface UserData {
+    userId:any,
     userImg:string,
     userType:string,
     userName:string,

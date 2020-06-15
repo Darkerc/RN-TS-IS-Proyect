@@ -1,8 +1,20 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React,{useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, StyleSheet, Image, Text } from 'react-native';
-import Ripple from "react-native-material-ripple";
+import Ripple from 'react-native-material-ripple';
+import WaitScreenModal from '../../../components/WaitScreenModal';
+import { gql } from "apollo-boost";
+import { useMutation } from "@apollo/react-hooks";
+
+interface DateProps{
+    idCita:string|number,
+    motivo:string,
+    fechaCita:string,
+    usuario:string,
+    img:string,
+    onDelete: Function
+}
 
 const UserBox = (textIcon:string, textInfo:string, userData:string) => {
     return (<View style={Style.userBox}>
@@ -13,31 +25,48 @@ const UserBox = (textIcon:string, textInfo:string, userData:string) => {
                 <Text style={Style.userData}>
                     {userData}
                 </Text>
-            </View>)
+            </View>);
 };
 
-export default () => {
+export default (props:DateProps) => {
+    let dateDate = new Date(parseInt(props.fechaCita));
+    const [modalWarning, setModalWarning] = useState(false);
+    const DELETE_DATE = gql`
+        mutation deleteDate($IdCita: ID!){
+            eliminarCita(IdCita:$IdCita)
+        }
+    `;
+    const [deleteDateMutation] = useMutation(DELETE_DATE,{variables:{IdCita:props.idCita}})
+
+    const deleteDate = async () => {
+        let { data:{eliminarCita} } = await deleteDateMutation();
+        props.onDelete()
+        setModalWarning(false);
+        console.log(eliminarCita);
+    };
+
     return (
         <View style={Style.dateContainer}>
-            <Image style={Style.userImg} source={require('../../../assets/imgEder.jpg')}/>
+            <Image style={Style.userImg} source={{ uri:props.img }}/>
             <View style={Style.userInfo}>
-                {UserBox('face','Usuario','Eder Reyes')}
-                {UserBox('event','Fecha','15/04/2020')}
-                {UserBox('watch','Hora','20:00')}
-                {UserBox('assignment','Motivo','Porque si!!')}
+                {UserBox('face','Usuario',props.usuario)}
+                {UserBox('event','Fecha',`${dateDate.getUTCDate()}/${dateDate.getUTCMonth()}/${dateDate.getUTCFullYear()}`)}
+                {UserBox('watch','Hora',`${dateDate.getUTCHours()}:${dateDate.getUTCMinutes()}`)}
+                {UserBox('assignment','Motivo',props.motivo)}
             </View>
             <View style={Style.userActions}>
-                <Ripple style={Style.btnRipple}>
-                    <Text style={Style.btnActions} onPress={()=>{}}>
+                <Ripple onPress={()=>{setModalWarning(true);}} style={Style.btnRipple}>
+                    <Text style={Style.btnActions}>
                         Cancelar
                     </Text>
                 </Ripple>
-                <Ripple style={Style.btnRipple}>
-                    <Text style={Style.btnActions} onPress={()=>{}}>
-                        Agendar
-                    </Text>
-                </Ripple>
             </View>
+            <WaitScreenModal
+                modalMessage="Estas segur@ de eliminar esta cita?"
+                btnYesNo={deleteDate}
+                visible={modalWarning}
+                btnClose={()=>setModalWarning(false)}
+            />
         </View>
     );
 };
@@ -68,7 +97,7 @@ const Style = StyleSheet.create({
     },
     textIcon:{
         width:'10%',
-        justifyContent:"center",
+        justifyContent:'center',
         alignSelf:'center',
         marginBottom:5,
     },
@@ -90,7 +119,7 @@ const Style = StyleSheet.create({
     },
     userActions:{
         flexDirection:'row',
-        justifyContent:'center'
+        justifyContent:'center',
     },
     btnRipple:{
         margin:5,
@@ -101,5 +130,5 @@ const Style = StyleSheet.create({
         color:'white',
         fontSize:15,
         borderRadius:5,
-    }
+    },
 });

@@ -3,16 +3,28 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { View, StyleSheet, TextInput } from 'react-native';
 
-export default () =>{
+interface CRUDAppBarOptions{
+    onClickPlus?: Function,
+    onClickTrash?: Function,
+    onSearchBoxChange?: (text:string) => void
+}
+
+export default (options:CRUDAppBarOptions) =>{
     return (
         <View style={Styles.barContainer}>
             <View style={Styles.barContainerItem}>
-                <Icon name="add-circle-outline" color="green" size={35}/>
-                <Icon name="delete" color="red" size={35}/>
+                {
+                    options.onClickPlus &&
+                    <Icon onPress={()=>{if (options.onClickPlus){options.onClickPlus();}}} name="add-circle-outline" color="green" size={35}/>
+                }
+                {
+                    options.onClickTrash &&
+                    <Icon onPress={()=>{if (options.onClickTrash){options.onClickTrash();}}} name="delete" color="red" size={35}/>
+                }
             </View>
             <View style={[Styles.barContainerItem,Styles.barContainerItemText]}>
                 <Icon name="search" color="blue" size={35}/>
-                <TextInput style={Styles.txtInput} placeholder="Buscar"/>
+                <TextInput style={Styles.txtInput} placeholder="Buscar" onChangeText={text=>{if (options.onSearchBoxChange){options.onSearchBoxChange(text);}}}/>
             </View>
         </View>
     );
@@ -44,7 +56,7 @@ const Styles = StyleSheet.create({
         borderRadius:10,
         margin:0,
         paddingHorizontal:10,
-        fontSize:20
+        fontSize:20,
     },
 });
 

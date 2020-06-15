@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent:'space-between',
     height: '100%',
-    backgroundColor: '#0A214D',
+    backgroundColor: '#490',
   },
   PImageContainer:{
 
@@ -20,11 +20,11 @@ export default StyleSheet.create({
   PBtnStartContainer:{
     width: '75%',
     alignSelf:'center',
-    padding: 40
+    padding: 40,
   },
   PBtnSingUpContainer:{
     padding: 20,
-    flexDirection: "row",
-    justifyContent:"flex-end"
-  } 
+    flexDirection: 'row',
+    justifyContent:'center',
+  },
 });
